@@ -37,8 +37,11 @@ public class finish : MonoBehaviour
         /*
          http://stackoverflow.com/questions/15268931/increment-a-string-with-both-letters-and-numbers
         */
-        string newLevel = Regex.Replace(curLevel, "\\d+",
-            m => (int.Parse(m.Value) + 1).ToString(new string('0', m.Value.Length)));
+        var match = Regex.Match(curLevel, @"^([^0-9]+)([0-9]+)$");
+        var num = int.Parse(match.Groups[2].Value);
+
+        string newLevel = match.Groups[1].Value + (num + 1);
+
         SceneManager.LoadScene(newLevel);
     }
 
