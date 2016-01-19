@@ -10,6 +10,11 @@ public class StartCountdown : UnityEngine.MonoBehaviour
 
     void Start()
     {
+        OnLevelWasLoaded();
+    }
+
+    void OnLevelWasLoaded()
+    {
         GameObject.Find("Canica").GetComponent<Rigidbody>().useGravity = false;
         time = 3;
         count = true;
