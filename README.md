@@ -20,15 +20,15 @@ Hemos desarrollado un juego de varios niveles en que el objetivo es llevar la pe
 
 #### Nivel 0
 
-![Level 1](Level_0.jpg)
+![Level 0](https://github.com/gcpmendez/II_UnityGameProject/blob/cardboard/Level_0.JPG?raw=true)
 > Este es un **nivel básico** para que el jugador aprenda las bases del juego, con ello se acostumbrará a los controles.
 
 #### Nivel 1
-![Level 1](Level_1.jpg)
+![Level 1](https://github.com/gcpmendez/II_UnityGameProject/blob/cardboard/Level_1.JPG?raw=true)
 > Con la introducción de este nuevo nivel el jugador esta mejorando sus capacidades para afrontar cada nivel.
 
 #### Nivel 2
-![Level 3](Level_2.jpg)
+![Level 3](https://github.com/gcpmendez/II_UnityGameProject/blob/cardboard/Level_2.JPG?raw=true)
 > Este nivel sigue el esquema perseguido por los anteriores.
 
 ## Hitos conseguidos
