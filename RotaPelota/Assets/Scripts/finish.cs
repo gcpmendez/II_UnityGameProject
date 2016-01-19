@@ -3,8 +3,21 @@ using System.Collections;
 
 public class finish : MonoBehaviour {
 
-    void OnCollisonEnter()
+   /* void OnCollisionEnter(Collision colision)
     {
-        Debug.Log("gameObject");
+        if (colision.relativeVelocity.magnitude >= 0)
+        {
+
+            Debug.Log("la esfera a tocado algo.");
+
+        }
+    } */
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "Cube")
+        {
+            Debug.Log("la esfera ha tocado al Cube.");
+        }
     }
 }
