@@ -10,7 +10,7 @@ public class StartCountdown : UnityEngine.MonoBehaviour
 
     void Start()
     {
-        GameObject.Find("Bolita").GetComponent<Rigidbody>().useGravity = false;
+        GameObject.Find("Canica").GetComponent<Rigidbody>().useGravity = false;
         time = 3;
         count = true;
     }
@@ -26,7 +26,6 @@ public class StartCountdown : UnityEngine.MonoBehaviour
             textObject.text = timeDisp;
             x += UnityEngine.Time.deltaTime;
             a = (int)x;
-            print(a);
             switch (a)
             {
                 
@@ -38,7 +37,7 @@ public class StartCountdown : UnityEngine.MonoBehaviour
                     //GameObject.Find("StartCounter").GetComponent<UnityEngine.UI.Text>().enabled = false;
                     textObject.text = "";
                     count = false;
-                    GameObject.Find("Bolita").GetComponent<Rigidbody>().useGravity = true;
+                    GameObject.Find("Canica").GetComponent<Rigidbody>().useGravity = true;
                     break;
             }
         }
