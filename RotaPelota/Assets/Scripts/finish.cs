@@ -27,12 +27,16 @@ public class finish : MonoBehaviour
 
     bool lose = false;
 
-    int interval = 1;
+    float interval = 1f;
     float nextTime = 0;
 
-    float superInterval = 0.2f;
+    static float superInterval = 0.2f;
     static float wholeLoseTime = 2.0f;
-    float loseTime = wholeLoseTime;
+    float remLoseTime = wholeLoseTime;
+
+    int maxFall = 100;
+    float levelHeight = GameObject.Find("CardboardMain").transform.position.y;
+    float ballHeight = GameObject.Find("Canica").transform.position.y;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -40,43 +44,33 @@ public class finish : MonoBehaviour
         /*
         http://answers.unity3d.com/questions/122349/how-to-run-update-every-second.html
         */
-        if (lose == false && Time.time >= nextTime)
+        if (Time.time >= nextTime)
         {
-            levelHeight = GameObject.Find("CardboardMain").transform.position.y;
-            ballHeight = GameObject.Find("Canica").transform.position.y;
-            h = levelHeight - ballHeight;
-            // Debug.Log(string.Format("levelHeight: {0}, ballHeight: {1}", levelHeight, ballHeight));
+            if (lose == false)
+            {
+                levelHeight = GameObject.Find("CardboardMain").transform.position.y;
+                ballHeight = GameObject.Find("Canica").transform.position.y;
+                h = levelHeight - ballHeight;
+                // Debug.Log(string.Format("levelHeight: {0}, ballHeight: {1}", levelHeight, ballHeight));
 
-            CheckLossCondition();
+                CheckLossCondition();
 
-            //do something here every interval seconds
+                //do something here every interval seconds
+            }
+            else
+            {
+                ChangeMusic();
+
+                remLoseTime -= interval;
+                if (remLoseTime <= 0)
+                {
+                    SceneManager.LoadScene(Application.loadedLevelName);    // Reload scene.
+                }
+            }
 
             nextTime += interval;
         }
-
-        if (lose == true && Time.time >= nextTime)
-        {
-            levelHeight = GameObject.Find("CardboardMain").transform.position.y;
-            ballHeight = GameObject.Find("Canica").transform.position.y;
-            h = levelHeight - ballHeight;
-            // Debug.Log(string.Format("levelHeight: {0}, ballHeight: {1}", levelHeight, ballHeight));
-            print(string.Format("heightDiff: {0}", h));
-            
-            ChangeMusic(0, wholeLoseTime, loseTime);
-
-            loseTime -= superInterval;
-            nextTime += superInterval;
-            if (loseTime <= 0)
-            {
-                SceneManager.LoadScene(Application.loadedLevelName);    // Reload scene.
-            }
-        }
-
     }
-
-    int maxFall = 100;
-    float levelHeight = GameObject.Find("CardboardMain").transform.position.y;
-    float ballHeight = GameObject.Find("Canica").transform.position.y;
 
     void CheckLossCondition()
     {
@@ -84,15 +78,15 @@ public class finish : MonoBehaviour
         {
             AnimationLose();
             lose = true;
+            interval = superInterval;
         }
     }
 
-    float maxPitch = 1.00f;
-    float minPitch = 0.90f;
+    static float maxPitch = 1.00f;
 
-    void ChangeMusic(float min, float max, float cur)
+    void ChangeMusic()
     {
-        float newP = minPitch + maxPitch * (cur / (max - min));
+        float newP = maxPitch * (remLoseTime / wholeLoseTime);
         print(string.Format("New pitch: {0}", newP));
         AudioSource music = GameObject.Find("music").GetComponent<AudioSource>();
         music.pitch = newP;
