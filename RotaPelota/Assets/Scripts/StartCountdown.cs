@@ -44,6 +44,7 @@ public class StartCountdown : UnityEngine.MonoBehaviour
                     count = false;
                     GameObject.Find("Canica").GetComponent<Rigidbody>().useGravity = true;
                     GameObject.Find("Canica").transform.parent = GameObject.Find("CardboardMain").transform;
+                    GameObject.Find("music").GetComponent<AudioSource>().Play();
                     break;
             }
         }
