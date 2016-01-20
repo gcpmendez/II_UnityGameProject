@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class finish : MonoBehaviour
 {
-    
+
     public TextMesh textObject;
 
     void Start()
@@ -16,25 +16,23 @@ public class finish : MonoBehaviour
 
     void OnLevelWasLoaded()
     {
-
         textObject = GameObject.Find("Win").GetComponent<TextMesh>();
         textObject.text = "";
     }
 
-
-
     float h = 0;
 
     bool lose = false;
+    bool win = false;
 
     float interval = 1f;
     float nextTime = 0;
 
-    static float superInterval = 0.2f;
+    public static float superInterval = 0.2f;   // The smaller, the smoother the ChangeMusic() transition is.
     static float wholeLoseTime = 2.0f;
     float remLoseTime = wholeLoseTime;
 
-    int maxFall = 100;
+    int maxFall = 50;
     float levelHeight = GameObject.Find("CardboardMain").transform.position.y;
     float ballHeight = GameObject.Find("Canica").transform.position.y;
 
@@ -48,16 +46,26 @@ public class finish : MonoBehaviour
         {
             if (lose == false)
             {
-                levelHeight = GameObject.Find("CardboardMain").transform.position.y;
-                ballHeight = GameObject.Find("Canica").transform.position.y;
-                h = levelHeight - ballHeight;
-                // Debug.Log(string.Format("levelHeight: {0}, ballHeight: {1}", levelHeight, ballHeight));
+                if (win == false)
+                {
+                    levelHeight = GameObject.Find("CardboardMain").transform.position.y;
+                    ballHeight = GameObject.Find("Canica").transform.position.y;
+                    h = levelHeight - ballHeight;
+                    // Debug.Log(string.Format("levelHeight: {0}, ballHeight: {1}", levelHeight, ballHeight));
 
-                CheckLossCondition();
+                    CheckLossCondition();
+                }
+                else
+                {
+                    remLoseTime -= interval;
+                    if (remLoseTime <= 0)
+                    {
+                        SetNextLevel();
+                    }
+                }
 
-                //do something here every interval seconds
             }
-            else
+            else 
             {
                 ChangeMusic();
 
@@ -98,19 +106,19 @@ public class finish : MonoBehaviour
         {
             Debug.Log("La canica ha tocado la meta.");
             AnimationWin();
-            SetNextLevel();
+            win = true;
         }
     }
 
     void AnimationWin()
     {
-        textObject.text = "Win!";
+        textObject.text = "You Won!";
         
     }
 
     void AnimationLose()
     {
-        textObject.text = "Lose!";
+        textObject.text = "You Lost!";
     }
 
     void SetNextLevel()

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 public class StartCountdown : UnityEngine.MonoBehaviour
 {
@@ -13,11 +14,24 @@ public class StartCountdown : UnityEngine.MonoBehaviour
         OnLevelWasLoaded();
     }
 
+    int levelNum = 999; // For displaying the level in the countdown.
+    AudioSource music = GameObject.Find("music").GetComponent<AudioSource>();
+
+    static float musicVol = 0.85f;  // Was too loud on my phone at least.
+
     void OnLevelWasLoaded()
     {
         GameObject.Find("Canica").GetComponent<Rigidbody>().useGravity = false;
-        time = 3;
+        time = 4;
         count = true;
+        var match = Regex.Match(Application.loadedLevelName, @"^([^0-9]+)([0-9]+)$");
+        levelNum = int.Parse(match.Groups[2].Value);
+
+        music = GameObject.Find("music").GetComponent<AudioSource>();
+        music.Stop();
+        music.volume = 0f;
+        music.PlayScheduled(time);  // This gives time for the AudioSource to load properly.
+
     }
 
     // Update is called once per frame
@@ -33,18 +47,22 @@ public class StartCountdown : UnityEngine.MonoBehaviour
             a = (int)x;
             switch (a)
             {
-                
-                case 0: textObject.text = "3"; break;
-                case 1: textObject.text = "2"; break;
-                case 2: textObject.text = "1"; break;
-                case 3: textObject.text = "Start!"; break;
-                case 4:
-                    //GameObject.Find("StartCounter").GetComponent<UnityEngine.UI.Text>().enabled = false;
+                case 0: textObject.text = "Level " + levelNum; break;
+                case 1: textObject.text = "3"; break;
+                case 2: textObject.text = "2"; break;
+                    // Somehow calling this here produces the best sync to "Start!" appearing on screen.
+                case 3: textObject.text = "1"; break;
+                case 4: textObject.text = "Start!";
+                    music.Play();
+                    music.volume = musicVol;
+                    break;
+                case 5:
+                    // GameObject.Find("StartCounter").GetComponent<UnityEngine.UI.Text>().enabled = false;
                     textObject.text = "";
                     count = false;
                     GameObject.Find("Canica").GetComponent<Rigidbody>().useGravity = true;
                     GameObject.Find("Canica").transform.parent = GameObject.Find("CardboardMain").transform;
-                    GameObject.Find("music").GetComponent<AudioSource>().Play();
+
                     break;
             }
         }
